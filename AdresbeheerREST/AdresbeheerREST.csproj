@@ -14,4 +14,8 @@
     <Folder Include="Model\Input\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AdresbeheerBL\AdresbeheerBL.csproj" />
+  </ItemGroup>
+
 </Project>
