@@ -40,5 +40,40 @@ namespace AdresbeheerDL.Repositories
             }
             catch(Exception ex) { throw new GemeenteRepositoryException("GeefGemeente",ex); }
         }
+
+        public bool HeeftGemeente(int nIScode)
+        {
+            string sql = "SELECT count(*) FROM gemeente WHERE niscode=@niscode";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = con.CreateCommand())
+            {
+                try
+                {
+                    con.Open();
+                    cmd.CommandText= sql;
+                    cmd.Parameters.AddWithValue("@niscode", nIScode);
+                    return (int)cmd.ExecuteScalar() > 0;
+                }
+                catch (Exception ex) { throw new GemeenteRepositoryException("HeeftGemeente", ex); }
+            }
+        }
+
+        public void VoegGemeenteToe(Gemeente gemeente)
+        {
+            string sql = "INSERT INTO gemeente(niscode,gemeentenaam) VALUES(@niscode,@gemeentenaam)";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = con.CreateCommand())
+            {
+                try
+                {
+                    con.Open();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@niscode", gemeente.NIScode);
+                    cmd.Parameters.AddWithValue("@gemeentenaam", gemeente.Gemeentenaam);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex) { throw new GemeenteRepositoryException("voegGemeentetoe", ex); }
+            }
+        }
     }
 }
